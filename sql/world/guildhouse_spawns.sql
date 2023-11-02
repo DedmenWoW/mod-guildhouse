@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `guild_house_spawns` (
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- !!! NOTE: set these before running the queries in order to avoid conflicts !!!
-SET @C_TEMPLATE = 500030;
+SET @C_TEMPLATE = 500150;
 SET @GO_TEMPLATE = 500000;
 
 REPLACE INTO `guild_house_spawns` (`id`, `entry`, `posX`, `posY`, `posZ`, `orientation`, `comment`) VALUES

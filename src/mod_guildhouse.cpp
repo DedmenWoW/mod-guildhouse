@@ -28,6 +28,9 @@ public:
     float ori;
 };
 
+//static constexpr uint32_t HOUSE_MAP = 608;
+static constexpr uint32_t HOUSE_MAP = 1;
+
 class GuildHelper : public GuildScript
 {
 
@@ -69,7 +72,7 @@ public:
         // Lets find all of the creatures to be removed
         CreatureResult = WorldDatabase.Query("SELECT `guid` FROM `creature` WHERE `map` = 1 AND `phaseMask` = '{}'", guildPhase);
 
-        Map *map = sMapMgr->FindMap(1, 0);
+        Map *map = sMapMgr->CreateBaseMap(HOUSE_MAP);
         // Remove creatures from the deleted guild house map
         if (CreatureResult)
         {
@@ -196,6 +199,11 @@ public:
             posY = 16267.802f;
             posZ = 13.136777f;
             ori = 1.461173f;
+            //map = HOUSE_MAP;
+            //posX = 1808.82f;
+            //posY = 803.93f;
+            //posZ = 44.364f;
+            //ori = 1.461173f;
             break;
         case 5: // close
             CloseGossipMenuFor(player);
@@ -267,7 +275,7 @@ public:
         uint32 guildPhase = GetGuildPhase(player);
         QueryResult CreatureResult;
         QueryResult GameobjResult;
-        Map *map = sMapMgr->FindMap(1, 0);
+        Map *map = sMapMgr->CreateBaseMap(HOUSE_MAP);
         // Lets find all of the gameobjects to be removed
         GameobjResult = WorldDatabase.Query("SELECT `guid` FROM `gameobject` WHERE `map` = 1 AND `phaseMask` = '{}'", guildPhase);
         // Lets find all of the creatures to be removed
@@ -329,7 +337,7 @@ public:
         float posZ;
         float ori;
 
-        Map *map = sMapMgr->FindMap(1, 0);
+        Map *map = sMapMgr->CreateBaseMap(HOUSE_MAP);
 
         if (player->GetTeamId() == TEAM_ALLIANCE)
         {
@@ -398,7 +406,7 @@ public:
         }
 
         // fill the gameobject data and save to the db
-        object->SaveToDB(sMapMgr->FindMap(1, 0)->GetId(), (1 << sMapMgr->FindMap(1, 0)->GetSpawnMode()), GetGuildPhase(player));
+        object->SaveToDB(map->GetId(), (1 << map->GetSpawnMode()), GetGuildPhase(player));
         guidLow = object->GetSpawnId();
         // delete the old object and do a clean load from DB with a fresh new GameObject instance.
         // this is required to avoid weird behavior and memory leaks
@@ -406,7 +414,7 @@ public:
 
         object = sObjectMgr->IsGameObjectStaticTransport(objectInfo->entry) ? new StaticTransport() : new GameObject();
         // this will generate a new guid if the object is in an instance
-        if (!object->LoadGameObjectFromDB(guidLow, sMapMgr->FindMap(1, 0), true))
+        if (!object->LoadGameObjectFromDB(guidLow, map, true))
         {
             delete object;
             return;
@@ -425,7 +433,7 @@ public:
         float posZ = 21.160221f;
         float ori = 6.195375f;
 
-        Map *map = sMapMgr->FindMap(1, 0);
+        Map *map = sMapMgr->CreateBaseMap(HOUSE_MAP);
         Creature *creature = new Creature();
 
         if (!creature->Create(map->GenerateLowGuid<HighGuid::Unit>(), map, player->GetPhaseMaskForSpawn(), entry, 0, posX, posY, posZ, ori))

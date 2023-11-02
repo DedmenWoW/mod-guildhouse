@@ -1,5 +1,5 @@
 -- !!! NOTE: set these before running the queries in order to avoid conflicts !!!
-SET @C_TEMPLATE = 500030;
+SET @C_TEMPLATE = 500150;
 
 DELETE FROM `creature_template` WHERE `entry` IN (
 	@C_TEMPLATE + 0,
